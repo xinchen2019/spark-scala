@@ -1,0 +1,81 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+<!--
+/**
+ *
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+-->
+<configuration>
+    <property>
+        <name>hbase.rootdir</name>
+        <value>hdfs://master:9000/hbase</value>
+    </property>
+    <property>
+        <name>hbase.cluster.distributed</name>
+        <value>true</value>
+    </property>
+    <property>
+        <name>hbase.zookeeper.quorum</name>
+        <value>master:2181,slave1:2181,slave2:2181</value>
+    </property>
+    <property>
+        <name>hbase.tmp.dir</name>
+        <value>/home/ubuntu/hbase/hbase-tmp</value>
+    </property>
+    <property>
+        <name>hbase.zookeeper.property.dataDir</name>
+        <value>/home/ubuntu/hbase-zookeeper</value>
+    </property>
+    <property>
+        <name>hbase.master.port</name>
+        <value>16000</value>
+    </property>
+    <!-- 支持HBase命名空间映射 -->
+    <property>
+        <name>phoenix.schema.isNamespaceMappingEnabled</name>
+        <value>true</value>
+    </property>
+    <!-- 支持索引预写日志编码 -->
+    <property>
+        <name>hbase.regionserver.wal.codec</name>
+        <value>org.apache.hadoop.hbase.regionserver.wal.IndexedWALEditCodec</value>
+    </property>
+    <!-- zk sesscion超时时间 -->
+    <property>
+        <name>zookeeper.session.timeout</name>
+        <value>120000</value>
+        <description>ZooKeeper session timeout in milliseconds. It is used in
+            two different ways.
+            First, this value is used in the ZK client that HBase uses to connect to
+            the ensemble.
+            It is also used by HBase when it starts a ZK server and it is passed as
+            the 'maxSessionTimeout'. See
+            http://hadoop.apache.org/zookeeper/docs/current/zookeeperProgrammers.html#ch_zkSessions.
+            For example, if a HBase region server connects to a ZK ensemble
+            that's also managed by HBase, then the
+            session timeout will be the one specified by this configuration. But, a
+            region server that connects
+            to an ensemble managed with a different configuration will be subjected
+            that ensemble's maxSessionTimeout. So,
+            even though HBase might propose using 90 seconds, the ensemble can have a
+            max timeout lower than this and
+            it will take precedence. The current default that ZK ships with is 40
+            seconds, which is lower than HBase's.
+        </description>
+    </property>
+</configuration>
