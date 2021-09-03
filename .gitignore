@@ -1,0 +1,7 @@
+.gradle/
+.idea/
+build/
+out/
+target/
+metastore_db/*
+spark-warehouse/*
