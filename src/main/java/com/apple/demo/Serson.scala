@@ -10,14 +10,14 @@ package com.apple.demo
   **/
 
 
-class Person(name: String, age: Int)
+class Serson(name: String, age: Int)
 
-object Person {
-  def apply(name: String, age: Int) = new Person(name, age)
+object Serson {
+  def apply(name: String, age: Int) = new Serson(name, age)
 
   def main(args: Array[String]): Unit = {
-    val Person(name, age) = "leo 25"
-    println(Person)
+    val Serson(name, age) = "leo 25"
+    println(Serson)
   }
 
   def unapply(str: String) = {
