@@ -4,6 +4,6 @@ build/
 out/
 target/
 !metastore_db
-metastore_db/*
+/metastore_db/*
 !spark-warehouse
-spark-warehouse/*
+/spark-warehouse/*
