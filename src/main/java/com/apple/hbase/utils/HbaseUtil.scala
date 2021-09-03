@@ -98,6 +98,17 @@ object HbaseUtil extends Logger {
   }
 
   /**
+    * 查看表是否存在
+    *
+    * @param tableName tableName
+    * @return boolean
+    */
+  def isTableExist(tableName: String): Boolean = {
+    val admin = adminHolder.get()
+    return admin.tableExists(TableName.valueOf(tableName))
+  }
+
+  /**
     * 删除表
     *
     * @param tableName tableName
@@ -111,17 +122,6 @@ object HbaseUtil extends Logger {
     } else {
       println("表" + tableName + "不存在！")
     }
-  }
-
-  /**
-    * 查看表是否存在
-    *
-    * @param tableName tableName
-    * @return boolean
-    */
-  def isTableExist(tableName: String): Boolean = {
-    val admin = adminHolder.get()
-    return admin.tableExists(TableName.valueOf(tableName))
   }
 
   /**

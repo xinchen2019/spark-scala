@@ -98,4 +98,5 @@ object SparkSQLDemo {
 
   //定义Hive case class
   case class Record(key: Int, value: String)
+
 }
