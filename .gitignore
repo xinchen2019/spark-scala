@@ -5,6 +5,7 @@ derby.log
 build/
 out/
 target/
+dataOut/
 !/metastore_db
 /metastore_db/*
 !/spark-warehouse

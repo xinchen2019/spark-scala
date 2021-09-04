@@ -44,11 +44,20 @@ object DepartmentAvgSalaryAndAgeStat {
 
     val employeeDF = spark.read.json("data/employee.json")
     val departmentDF = spark.read.json("data/department.json")
-    employeeDF.filter($"age" > 20)
-      .join(departmentDF, $"depId" === $"id")
-      .groupBy(departmentDF("name"), employeeDF("gender"))
-      .agg(avg(employeeDF("salary")), avg(employeeDF("age")))
-      .show()
+//    employeeDF.filter($"age" > 20)
+//      .join(departmentDF, $"depId" === $"id")
+//      .groupBy(departmentDF("name"), employeeDF("gender"))
+//      .agg(avg(employeeDF("salary")), avg(employeeDF("age")))
+//      .show()
+
+    employeeDF.printSchema()
+
+//    employeeDF.filter{
+//      "age>20"
+//    }
+//      .join(departmentDF, $"depId" === $"id")
+//      .groupBy(departmentDF("name"), employeeDF("gender"))
+//      .agg(avg(employeeDF("salary")), avg(employeeDF("age"))).show()
 
     /**
       * 基础的知识带一下

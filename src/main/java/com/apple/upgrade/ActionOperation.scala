@@ -21,7 +21,7 @@ object ActionOperation {
 
     val spark = SparkSession
       .builder() //用到了java里面的构造设计模式
-      .appName("SparkSQLDemo")
+      .appName("ActionOperation")
       .master("local[*]")
       //这是Spark SQL 2.0 里面一个重要的变化，需要设置spark sql的元数据仓库的目录
       //.config("spark.sql.warehouse.dir", warehouseLocation)
