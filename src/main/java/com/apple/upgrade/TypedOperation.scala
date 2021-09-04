@@ -6,7 +6,7 @@ import org.apache.spark.sql.SparkSession
 /**
   * @Program: spark-scala
   * @ClassName: TypedOperation
-  * @Description: TODO
+  * @Description: type操作
   * @Author Mr.Apple
   * @Create: 2021-09-04 09:18
   * @Version 1.1.0
@@ -85,24 +85,30 @@ object TypedOperation {
     //      department =>
     //        Seq(Department(department.getAs("id"), department.getAs("name")))
     //    }.show()
-//    employeeDS.mapPartitions { employees =>
-//      val result = scala.collection.mutable.ArrayBuffer[(String, Long)]()
-//      while (employees.hasNext) {
-//        var emp = employees.next()
-//        result += ((emp.name, emp.salary + 1000))
-//      }
-//      result.iterator
-//    }.show()
-//    println("=========================================")
-//    employeeDF.mapPartitions { employees =>
-//      val result = scala.collection.mutable.ArrayBuffer[(String, Long)]();
-//      while (employees.hasNext) {
-//        var emp = employees.next()
-//        result += ((emp.getAs[String]("name"), emp.getAs[Long]("salary") + 1000))
-//      }
-//      result.iterator
-//    }.show()
+    //    employeeDS.mapPartitions { employees =>
+    //      val result = scala.collection.mutable.ArrayBuffer[(String, Long)]()
+    //      while (employees.hasNext) {
+    //        var emp = employees.next()
+    //        result += ((emp.name, emp.salary + 1000))
+    //      }
+    //      result.iterator
+    //    }.show()
+    //    println("=========================================")
+    //    employeeDF.mapPartitions { employees =>
+    //      val result = scala.collection.mutable.ArrayBuffer[(String, Long)]();
+    //      while (employees.hasNext) {
+    //        var emp = employees.next()
+    //        result += ((emp.getAs[String]("name"), emp.getAs[Long]("salary") + 1000))
+    //      }
+    //      result.iterator
+    //    }.show()
 
-    employeeDS.joinWith(departmentDS,$"depId"===$"id")
+    //employeeDS.joinWith(departmentDS,$"depId"===$"id").show()
+
+    //employeeDS.sort($"salary".desc).show()
+
+    val employeeDSArr = employeeDS.randomSplit(Array(3, 10, 20))
+    //employeeDSArr.foreach(_.show())
+    employeeDS.sample(false, 0.3).show()
   }
 }

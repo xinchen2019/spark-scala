@@ -21,16 +21,24 @@ class DataFrameDemo01 {
       //启用hive支持
       .getOrCreate()
     import spark.implicits._
-    val sc = spark.sparkContext
-    val df = sc.parallelize(
+    val df = spark.createDataset(
       Seq(
         ("a", 1),
         ("a", 2),
         ("b", 2),
         ("b", 3),
         ("c", 1)
-      )
-    ).toDF("id", "num")
+      )).toDF("id", "num")
+    //    val sc = spark.sparkContext
+    ////    val df = sc.parallelize(
+    ////      Seq(
+    ////        ("a", 1),
+    ////        ("a", 2),
+    ////        ("b", 2),
+    ////        ("b", 3),
+    ////        ("c", 1)
+    ////      )
+    ////    ).toDF("id", "num")
     df.filter($"num" === 2)
     df.filter($"num" > 2)
     df.filter($"num" < 2)
