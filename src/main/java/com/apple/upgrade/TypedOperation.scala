@@ -13,12 +13,6 @@ import org.apache.spark.sql.SparkSession
   **/
 object TypedOperation {
 
-  case class Employee(name: String, age: Long, depID: Long, gender: String, salary: Long)
-
-  case class Department(id: Long, name: String)
-
-  Logger.getLogger("org").setLevel(Level.ERROR)
-
   def main(args: Array[String]): Unit = {
     val spark = SparkSession
       .builder() //用到了java里面的构造设计模式
@@ -111,4 +105,10 @@ object TypedOperation {
     //employeeDSArr.foreach(_.show())
     employeeDS.sample(false, 0.3).show()
   }
+
+  case class Employee(name: String, age: Long, depID: Long, gender: String, salary: Long)
+
+  Logger.getLogger("org").setLevel(Level.ERROR)
+
+  case class Department(id: Long, name: String)
 }

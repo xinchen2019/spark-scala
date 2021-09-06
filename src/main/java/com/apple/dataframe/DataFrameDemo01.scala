@@ -10,7 +10,7 @@ import org.apache.spark.sql.SparkSession
   * @Create: 2021-09-04 18:57
   * @Version 1.1.0
   **/
-class DataFrameDemo01 {
+object DataFrameDemo01 {
   def main(args: Array[String]): Unit = {
     val spark = SparkSession
       .builder() //用到了java里面的构造设计模式

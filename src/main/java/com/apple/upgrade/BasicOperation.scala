@@ -21,10 +21,6 @@ import org.apache.spark.sql.SparkSession
   */
 object BasicOperation {
 
-  case class Employee(name: String, age: Long, depID: Long, gender: String, salary: Long)
-
-  Logger.getLogger("org").setLevel(Level.ERROR)
-
   def main(args: Array[String]): Unit = {
 
     //val warehouseLocation = "file:///${system:user.dir}/spark-warehouse"
@@ -67,4 +63,8 @@ object BasicOperation {
 
     val employeeDF2 = employeeDS.toDF()
   }
+
+  Logger.getLogger("org").setLevel(Level.ERROR)
+
+  case class Employee(name: String, age: Long, depID: Long, gender: String, salary: Long)
 }

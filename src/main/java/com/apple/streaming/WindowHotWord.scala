@@ -23,10 +23,11 @@ object WindowHotWord {
     val searchWordsDStream = seacrhLogsDStream.map((_.split(" ")(1)))
     val searchWordPairsDStream = searchWordsDStream.map((_, 1))
 
-    val searchWordCountsDSteram = searchWordPairsDStream.reduceByKeyAndWindow(
-      (v1: Int, v2: Int) => v1 + v2,
-      Seconds(60),
-      Seconds(10))
+    val searchWordCountsDSteram = searchWordPairsDStream
+      .reduceByKeyAndWindow(
+        (v1: Int, v2: Int) => v1 + v2,
+        Seconds(60),
+        Seconds(10))
 
     searchWordCountsDSteram.transform(
       searchWordCountsRDD => {

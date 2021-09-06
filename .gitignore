@@ -5,6 +5,7 @@ derby.log
 build/
 out/
 target/
+logs/
 dataOut/
 !/metastore_db
 /metastore_db/*

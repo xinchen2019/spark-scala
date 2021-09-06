@@ -38,26 +38,24 @@ object DepartmentAvgSalaryAndAgeStat {
       .enableHiveSupport()
       .getOrCreate()
     // 导入spark的隐式转换
-    import spark.implicits._
     // 导入spark sql的functions
-    import org.apache.spark.sql.functions._
 
     val employeeDF = spark.read.json("data/employee.json")
     val departmentDF = spark.read.json("data/department.json")
-//    employeeDF.filter($"age" > 20)
-//      .join(departmentDF, $"depId" === $"id")
-//      .groupBy(departmentDF("name"), employeeDF("gender"))
-//      .agg(avg(employeeDF("salary")), avg(employeeDF("age")))
-//      .show()
+    //    employeeDF.filter($"age" > 20)
+    //      .join(departmentDF, $"depId" === $"id")
+    //      .groupBy(departmentDF("name"), employeeDF("gender"))
+    //      .agg(avg(employeeDF("salary")), avg(employeeDF("age")))
+    //      .show()
 
     employeeDF.printSchema()
 
-//    employeeDF.filter{
-//      "age>20"
-//    }
-//      .join(departmentDF, $"depId" === $"id")
-//      .groupBy(departmentDF("name"), employeeDF("gender"))
-//      .agg(avg(employeeDF("salary")), avg(employeeDF("age"))).show()
+    //    employeeDF.filter{
+    //      "age>20"
+    //    }
+    //      .join(departmentDF, $"depId" === $"id")
+    //      .groupBy(departmentDF("name"), employeeDF("gender"))
+    //      .agg(avg(employeeDF("salary")), avg(employeeDF("age"))).show()
 
     /**
       * 基础的知识带一下

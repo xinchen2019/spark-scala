@@ -3,7 +3,6 @@
          xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
     <groupId>com.apple</groupId>
     <artifactId>spark-scala</artifactId>
     <version>1.0-SNAPSHOT</version>
@@ -18,7 +17,6 @@
         <scala.compat.version>2.11</scala.compat.version>
         <hbase.version>1.2.1</hbase.version>
         <kafka.version>2.1.0</kafka.version>
-        <kafka.scala.version>2.11</kafka.scala.version>
         <zookeeper.version>3.4.6</zookeeper.version>
         <mysql.version>5.1.46</mysql.version>
     </properties>
@@ -30,17 +28,17 @@
         </dependency>
         <dependency>
             <groupId>org.apache.spark</groupId>
-            <artifactId>spark-core_${kafka.scala.version}</artifactId>
+            <artifactId>spark-core_${scala.compat.version}</artifactId>
             <version>${spark.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.spark</groupId>
-            <artifactId>spark-sql_${kafka.scala.version}</artifactId>
+            <artifactId>spark-sql_${scala.compat.version}</artifactId>
             <version>${spark.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.spark</groupId>
-            <artifactId>spark-streaming_${kafka.scala.version}</artifactId>
+            <artifactId>spark-streaming_${scala.compat.version}</artifactId>
             <version>${spark.version}</version>
         </dependency>
         <dependency>
@@ -50,7 +48,7 @@
         </dependency>
         <dependency>
             <groupId>org.apache.spark</groupId>
-            <artifactId>spark-hive_${kafka.scala.version}</artifactId>
+            <artifactId>spark-hive_${scala.compat.version}</artifactId>
             <version>${spark.version}</version>
         </dependency>
         <dependency>
@@ -70,12 +68,12 @@
         </dependency>
         <dependency>
             <groupId>org.apache.spark</groupId>
-            <artifactId>spark-streaming-kafka-0-10_${kafka.scala.version}</artifactId>
+            <artifactId>spark-streaming-kafka-0-10_${scala.compat.version}</artifactId>
             <version>${spark.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.kafka</groupId>
-            <artifactId>kafka_${kafka.scala.version}</artifactId>
+            <artifactId>kafka_${scala.compat.version}</artifactId>
             <version>${kafka.version}</version>
         </dependency>
         <dependency>
@@ -107,6 +105,11 @@
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <version>${mysql.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.spark</groupId>
+            <artifactId>spark-sql-kafka-0-10_${scala.compat.version}</artifactId>
+            <version>${spark.version}</version>
         </dependency>
     </dependencies>
     <build>
