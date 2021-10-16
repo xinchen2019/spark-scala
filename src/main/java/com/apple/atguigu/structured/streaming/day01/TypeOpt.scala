@@ -1,4 +1,4 @@
-package com.apple.atguigu.structured.streaming
+package com.apple.atguigu.structured.streaming.day01
 
 import org.apache.spark.sql.SparkSession
 import org.apache.spark.sql.types.{LongType, StringType, StructType}
@@ -11,9 +11,10 @@ import org.apache.spark.sql.types.{LongType, StringType, StructType}
   * @Create: 2021-09-06 15:33
   * @Version 1.1.0
   **/
-case class Ppeople(name: String, age: Long, sex: String)
+
 
 object TypeOpt {
+
   def main(args: Array[String]): Unit = {
     val spark = SparkSession.builder()
       .master("local[*]")
@@ -39,4 +40,7 @@ object TypeOpt {
       .awaitTermination()
 
   }
+
+  case class Ppeople(name: String, age: Long, sex: String)
+
 }

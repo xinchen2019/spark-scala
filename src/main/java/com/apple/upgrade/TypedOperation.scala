@@ -111,4 +111,5 @@ object TypedOperation {
   Logger.getLogger("org").setLevel(Level.ERROR)
 
   case class Department(id: Long, name: String)
+
 }

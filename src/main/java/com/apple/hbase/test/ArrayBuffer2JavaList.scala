@@ -1,7 +1,15 @@
-package com.apple.hbase
+package com.apple.hbase.test
 
 import scala.collection.mutable.ArrayBuffer
 
+/**
+  * @Program: Default (Template) Project
+  * @ClassName: ArrayBuffer2JavaList
+  * @Description: TODO
+  * @Author Mr.Apple
+  * @Create: 2021-09-28 18:08
+  * @Version 1.1.0
+  **/
 object ArrayBuffer2JavaList {
   def main(args: Array[String]): Unit = {
     // Scala集合和Java集合互相转换

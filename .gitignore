@@ -7,8 +7,11 @@ out/
 target/
 logs/
 dataOut/
+checkpoint/
 !/metastore_db
 /metastore_db/*
 !/spark-warehouse
 /spark-warehouse/*
+!/checkpoint
+/checkpoint/*
 

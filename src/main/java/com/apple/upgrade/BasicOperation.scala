@@ -67,4 +67,5 @@ object BasicOperation {
   Logger.getLogger("org").setLevel(Level.ERROR)
 
   case class Employee(name: String, age: Long, depID: Long, gender: String, salary: Long)
+
 }

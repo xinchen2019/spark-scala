@@ -49,7 +49,6 @@ object DataFrameDemo01 {
     df.filter($"num" === ind)
     df.filter($"num" > ind)
     df.filter($"num" < ind)
-
     //对字符串过滤
     df.filter($"id".equalTo("a"))
     //传递参数过滤
@@ -60,12 +59,9 @@ object DataFrameDemo01 {
       * 多条件判断
       * 逻辑连接符 &&（并）、||（或）
       */
-
     df.filter($"num" === 2 && $"id".equalTo("a"))
     df.filter($"num" === 1 || $"num" === 3)
-
     df.filter(
       $"num" > 30)
-
   }
 }

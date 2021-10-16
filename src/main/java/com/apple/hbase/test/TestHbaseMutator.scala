@@ -1,4 +1,4 @@
-package com.apple.hbase
+package com.apple.hbase.test
 
 import java.io.IOException
 import java.util
@@ -8,6 +8,7 @@ import org.apache.hadoop.hbase.client._
 import org.apache.hadoop.hbase.util.Bytes
 import org.apache.hadoop.hbase.{HBaseConfiguration, TableName}
 
+
 /**
   * @Program: spark-scala
   * @ClassName: Test
@@ -16,6 +17,9 @@ import org.apache.hadoop.hbase.{HBaseConfiguration, TableName}
   * @Create: 2021-08-15 23:07
   * @Version 1.1.0
   **/
+/**
+  * 参考链接 https://blog.csdn.net/weixin_34138521/article/details/92378270
+  */
 object TestHbaseMutator {
   def main(args: Array[String]): Unit = {
     val config = HBaseConfiguration.create
@@ -29,6 +33,7 @@ object TestHbaseMutator {
     val connection = ConnectionFactory.createConnection(config)
     // 创建一个线程池，里面有10线程
     val threadPool = Executors.newFixedThreadPool(10)
+
     val scheduledThreadPool = Executors.newScheduledThreadPool(1)
     //开启线程池监控
     /**
@@ -42,18 +47,17 @@ object TestHbaseMutator {
       }
     }, 3, 5, TimeUnit.SECONDS)
     //向hbase中插入一千万条数据
-    var i = 0
-    while (i < 10) {
+    for (i <- 8000 to 10000) {
       val basix = i
       threadPool.submit(new Runnable() {
         override def run(): Unit = {
           try {
             val mutator = new util.ArrayList[Mutation]
-            var j = 0
-            while (j < 10) {
+            for (j <- 0 to 10000) {
               val puts = new Put(Bytes.toBytes(basix))
-              puts.add(Bytes.toBytes("f6"), Bytes.toBytes(basix + 2), Bytes.toBytes(basix + j))
+              puts.addColumn(Bytes.toBytes("f6"), Bytes.toBytes(basix + 2), Bytes.toBytes(basix + j))
               mutator.add(puts)
+              println("===mutator.add(puts)===")
             }
             mutatorToHbase(connection, "t6", mutator)
           } catch {
@@ -73,6 +77,7 @@ object TestHbaseMutator {
       override def onException(e: RetriesExhaustedWithDetailsException, mutator: BufferedMutator): Unit = {
         var i = 0
         while (i < e.getNumExceptions) {
+          println("e: " + e)
           println("插入失败 " + e.getRow(i) + ".")
         }
       }
@@ -82,6 +87,7 @@ object TestHbaseMutator {
     val bufferedMutator = connect.getBufferedMutator(params)
     //批量提交数据插入。
     bufferedMutator.mutate(list)
+    println("===bufferedMutator.mutate===")
     bufferedMutator.close()
   }
 }

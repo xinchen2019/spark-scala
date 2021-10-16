@@ -1,5 +1,8 @@
 package com.apple.hbase.utils
 
+import java.text.DecimalFormat
+import java.util
+
 import com.apple.log.Logger
 import org.apache.hadoop.hbase._
 import org.apache.hadoop.hbase.client._
@@ -25,7 +28,7 @@ object HbaseUtil extends Logger {
   conf.set("hbase.zookeeper.property.clientPort", "2181")
   private val adminHolder = new ThreadLocal[HBaseAdmin];
 
-  //现在之间数据封闭，保证多线程情况下的数据安全
+  //线程之间数据封闭，保证多线程情况下的数据安全
   adminHolder.set(conn.getAdmin().asInstanceOf[HBaseAdmin]);
   connHolder.set(conn);
 
@@ -47,7 +50,8 @@ object HbaseUtil extends Logger {
     */
   def namespaceExists(namespace: String): Boolean = {
     val admin = adminHolder.get()
-    val names = admin.listNamespaceDescriptors(); // 获取所有的命名空间
+    // 获取所有的命名空间
+    val names = admin.listNamespaceDescriptors();
     for (desc <- names) {
       if (namespace.equals(desc.getName()))
         return true;
@@ -73,10 +77,15 @@ object HbaseUtil extends Logger {
   /**
     * 创建表
     *
-    * @param tableName    tableName
-    * @param columnFamily columnFamily
+    * @param tableName
+    * @param reginCount
+    * @param columnFamily
     */
-  def createTable(tableName: String, columnFamily: String*) {
+  def createTable(tableName: String, reginCount: Int, columnFamily: String*) {
+
+    if (reginCount == 0) {
+      val reginCount = 3
+    }
     val admin = adminHolder.get()
     //判断表是否存在
     if (isTableExist(tableName)) {
@@ -89,12 +98,52 @@ object HbaseUtil extends Logger {
         descriptor.addFamily(new HColumnDescriptor(cf))
       }
       //添加协处理器
-      descriptor.addCoprocessor("com.apple.phoenix.coprocessor.MyIndexCoprocess")
-
+      //descriptor.addCoprocessor("com.apple.phoenix.coprocessor.MyIndexCoprocess")
       //根据对表的配置，创建表
-      admin.createTable(descriptor)
+      admin.createTable(descriptor, genSplitKeys(reginCount))
       println("表" + tableName + "创建成功！")
     }
+  }
+
+  /**
+    * 查看表是否存在
+    *
+    * @param tableName tableName
+    * @return boolean
+    */
+  def isTableExist(tableName: String): Boolean = {
+    val admin = adminHolder.get()
+    return admin.tableExists(TableName.valueOf(tableName))
+  }
+
+  /**
+    * hbase建表预分区
+    *
+    * @param regionCount
+    * @return
+    */
+  def genSplitKeys(regionCount: Int): Array[Array[Byte]] = {
+    val keys = new Array[String](regionCount)
+    val df = new DecimalFormat("00")
+    for (i <- 0 until regionCount) {
+      keys(i) = df.format(i) + "|";
+    }
+
+    val splitKeys = new Array[Array[Byte]](regionCount)
+    //生成byte[][]类型的分区键的时候，一定要保证分区键是有序的
+    val treeSet = new util.TreeSet[Array[Byte]](Bytes.BYTES_COMPARATOR)
+    for (i <- 0 until regionCount) {
+      treeSet.add(Bytes.toBytes(keys(i)));
+    }
+    val splitKeysIterator = treeSet.iterator();
+    var index = 0;
+    while (splitKeysIterator.hasNext) {
+      val b = splitKeysIterator.next();
+      splitKeys(index) = b
+      index += 1
+    }
+    return splitKeys
+    //println(keys.mkString(" "))
   }
 
   /**
@@ -111,17 +160,6 @@ object HbaseUtil extends Logger {
     } else {
       println("表" + tableName + "不存在！")
     }
-  }
-
-  /**
-    * 查看表是否存在
-    *
-    * @param tableName tableName
-    * @return boolean
-    */
-  def isTableExist(tableName: String): Boolean = {
-    val admin = adminHolder.get()
-    return admin.tableExists(TableName.valueOf(tableName))
   }
 
   /**
@@ -143,7 +181,6 @@ object HbaseUtil extends Logger {
     table.close();
   }
 
-
   /**
     * 查询某张表下的所有数据
     *
@@ -153,7 +190,6 @@ object HbaseUtil extends Logger {
     val table = connHolder.get().getTable(TableName.valueOf(tableName))
     //得到用于扫描region的对象
     val scan = new Scan()
-
     //使用HTable得到resultcanner实现类的对象
     val resultScanner: ResultScanner = table.getScanner(scan)
     val results = resultScanner.iterator()
@@ -213,7 +249,6 @@ object HbaseUtil extends Logger {
     }
   }
 
-
   /**
     * 关闭Connection连接
     *
@@ -272,5 +307,29 @@ object HbaseUtil extends Logger {
     mutator.mutate(scalaList.asJava)
     mutator.flush()
     mutator.close()
+  }
+
+  /**
+    *
+    * @param rowkey
+    * @param regionCount
+    * @return
+    */
+  def genRegionNum(rowkey: String, regionCount: Int): String = {
+    var regionNum: Int = 0;
+    var hash = rowkey.hashCode;
+    if (regionCount > 0 && (regionCount & (regionCount - 1)) == 0) {
+      //2n
+      regionNum = hash & (regionCount - 1)
+    } else {
+      regionNum = hash % (regionCount - 1)
+    }
+    return regionNum + "_" + rowkey
+  }
+
+  def main(args: Array[String]): Unit = {
+    //    val zhangsan = genRegionNum("lisi", 3)
+    //    println(zhangsan)
+    genSplitKeys(3);
   }
 }

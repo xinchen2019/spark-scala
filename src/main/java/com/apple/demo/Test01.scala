@@ -13,5 +13,4 @@ object Test01 {
   def main(args: Array[String]): Unit = {
     print(System.getProperty("user.dir"))
   }
-
 }

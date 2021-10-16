@@ -1,4 +1,4 @@
-package com.apple.atguigu.structured.streaming
+package com.apple.atguigu.structured.streaming.day01
 
 import org.apache.spark.sql.SparkSession
 import org.apache.spark.sql.types.{LongType, StringType, StructType}

@@ -1,19 +1,9 @@
-package com.apple.atguigu.structured.streaming
-
+package com.apple.atguigu.structured.streaming.day01
 
 import org.apache.spark.sql.SparkSession
 import org.apache.spark.sql.streaming.Trigger
 import org.apache.spark.sql.types.{IntegerType, StringType, StructField, StructType}
 
-
-/**
-  * @Program: spark-scala
-  * @ClassName: FileSource
-  * @Description: TODO
-  * @Author Mr.Apple
-  * @Create: 2021-09-06 11:54
-  * @Version 1.1.0
-  **/
 /**
   * 参考链接
   * http://spark.apache.org/docs/latest/structured-streaming-kafka-integration.html

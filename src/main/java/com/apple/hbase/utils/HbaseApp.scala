@@ -28,10 +28,10 @@ object HbaseApp {
       "1005,Lily,15",
       "1006,Liping,16"
     )
-    //   HbaseUtils.createNamespace(namespace)
+    //HbaseUtil.createNamespace(namespace)
     //    val isExists = HbaseUtil.namespaceExists(namespace)
     //    println("isExists: " + isExists)
-    //    HbaseUtils.createTable(tableName, family)
+    //HbaseUtil.createTable(tableName, reginCount = 3, family)
 
     for (userinfo <- userinfos) {
       val rowkey = userinfo.split(",")(0)
@@ -42,18 +42,21 @@ object HbaseApp {
     }
     //    HbaseUtils.getRowQualifier("apple:account", "4", "info", "name")
     //HbaseUtils.deleteMultiRow(tableName, "4") /**/
-
     //HbaseUtils.getAllRows(tableName)
-
     //values: List[(String,String, Int)])
-
-
     val userInfolist = new ListBuffer[(String, String, String)]
     //userInfolist:+(("1008", "Lucy","15"))
-    userInfolist.append(("1008", "Lucy", "15"))
-    userInfolist.append(("1009", "Andy", "19"))
+    //    userInfolist.append(("1008", "Lucy", "15"))
+    //    userInfolist.append(("1009", "Andy", "19"))
+    userInfolist.append(("1011", "刘华", "20"))
     HbaseUtil.batchInsertData(tableName, userInfolist.toList)
 
+    getAllRows(tableName)
     close();
+  }
+
+  def getAllRows(tableName: String): Unit = {
+    val rows = HbaseUtil.getAllRows(tableName)
+    println(rows)
   }
 }

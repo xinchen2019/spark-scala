@@ -1,0 +1,3 @@
+01//zs//Hadoop scala spark hive hbase
+02//ls//Hadoop scala kafka hive hbase Oozie
+03//ww//Hadoop scala spark hive sqoop
